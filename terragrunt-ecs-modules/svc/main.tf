@@ -26,11 +26,11 @@ EOF
 }
 
 module "ecs_service_app" {
-  source = "../../terraform-aws-ecs/modules/service"
+  source = "/Users/macbook/new/terraform-aws-ecs/modules/service"
 
   name = var.container_name
 
-  alb_target_group_arn = var.alb_target_group_arn
+  #alb_target_group_arn = var.alb_target_group_arn
   cluster              = var.cluster
   container_name       = var.container_name
   container_port       = var.container_port

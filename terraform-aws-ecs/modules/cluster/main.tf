@@ -136,33 +136,48 @@ resource "aws_key_pair" "user" {
   public_key = file("~/.ssh/id_rsa.pub")
 }
 
-resource "aws_launch_configuration" "instance" {
-  name_prefix          = "${var.name}-lc"
+resource "aws_launch_template" "instance" {
+  name_prefix          = "${var.name}-lt"
   image_id             = var.image_id != "" ? var.image_id : data.aws_ami.ecs.id
   instance_type        = var.instance_type
-  iam_instance_profile = aws_iam_instance_profile.instance.name
-  user_data            = data.template_file.user_data.rendered
-  security_groups      = [aws_security_group.instance.id]
+  user_data            = base64encode(data.template_file.user_data.rendered)
   key_name             = var.instance_keypair != "" ? var.instance_keypair : element(concat(aws_key_pair.user.*.key_name, [""]), 0)
 
-  root_block_device {
-    volume_size = var.instance_root_volume_size
-    volume_type = "gp2"
+
+  network_interfaces {
+    device_index    = 0
+    security_groups = [aws_security_group.instance.id]
   }
+
+  block_device_mappings {
+    device_name = "/dev/sda1"
+    ebs {
+      volume_size = var.instance_root_volume_size
+      volume_type = "gp2"
+    }
+  }
+
+   iam_instance_profile {
+      name = aws_iam_instance_profile.instance.name
+    }
 
   lifecycle {
     create_before_destroy = true
   }
 }
 
+
 resource "aws_autoscaling_group" "asg" {
   name = "${var.name}-asg"
-
-  launch_configuration = aws_launch_configuration.instance.name
   vpc_zone_identifier  = var.vpc_subnets
   max_size             = var.asg_max_size
   min_size             = var.asg_min_size
   desired_capacity     = var.asg_desired_size
+
+  launch_template {
+    id = aws_launch_template.instance.id
+    version              = "$Latest"  # Or specify a version if needed
+  }
 
   health_check_grace_period = 300
   health_check_type         = "EC2"

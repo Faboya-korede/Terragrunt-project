@@ -2,7 +2,7 @@
 # terragrunt.hcl configuration.
 locals {
   account_name = "stage"
-  aws_profile  = "korede"
-  domain_name  = "mydomain.io"
+  aws_profile  = "default"
+  domain_name  = "korede.tech"
   owner        = "me"
 }

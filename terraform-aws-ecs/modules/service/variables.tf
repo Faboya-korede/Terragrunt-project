@@ -1,7 +1,3 @@
-variable "alb_target_group_arn" {
-  description = "ARN of the ALB target group that should be associated with the ECS service"
-}
-
 variable "cluster" {
   description = "Name of the ECS cluster to create service in"
 }

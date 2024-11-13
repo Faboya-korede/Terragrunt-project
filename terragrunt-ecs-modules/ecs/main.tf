@@ -1,5 +1,5 @@
 module "ecs_cluster" {
-  source = "../../terraform-aws-ecs/modules/cluster"
+  source = "/Users/macbook/new/terraform-aws-ecs/modules/cluster"
 
   asg_min_size = var.asg_min_size
   asg_max_size = var.asg_max_size

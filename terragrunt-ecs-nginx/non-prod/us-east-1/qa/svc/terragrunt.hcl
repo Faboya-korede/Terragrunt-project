@@ -23,13 +23,13 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "alb" {
-  config_path = "../alb"
-  mock_outputs = {
-    listener_https_arn = "arn:aws:elasticloadbalancing:us-east-1:067653612345:listener/app/app-qa-aware-joey/8c1c7d99b5559a27/36cf5276bff3160d"
-    target_group_arn   = "arn:aws:elasticloadbalancing:us-east-1:067653612345:targetgroup/h120200525224707917000000003/e34d2a0306ff19df"
-  }
-}
+# dependency "alb" {
+#   config_path = "../alb"
+#   mock_outputs = {
+#     listener_https_arn = "arn:aws:elasticloadbalancing:us-east-1:067653612345:listener/app/app-qa-aware-joey/8c1c7d99b5559a27/36cf5276bff3160d"
+#     target_group_arn   = "arn:aws:elasticloadbalancing:us-east-1:067653612345:targetgroup/h120200525224707917000000003/e34d2a0306ff19df"
+#   }
+# }
 
 dependency "ecs" {
   config_path = "../ecs"
@@ -51,7 +51,7 @@ inputs = {
   container_image      = "${local.container_image}"
   container_port       = "80"
   log_groups           = ["app-${local.env}-${local.container_name}"]
-  alb_target_group_arn = dependency.alb.outputs.target_group_arn
+#alb_target_group_arn = dependency.alb.outputs.target_group_arn
   cluster              = dependency.ecs.outputs.cluster_id
 
   tags = {

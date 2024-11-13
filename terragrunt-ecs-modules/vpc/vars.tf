@@ -1,7 +1,7 @@
 variable "module_version" {
   description = "Version of the terraform module"
   type        = string
-  default     = "1.26.0"
+  default     = "3.0.0"
 }
 
 variable "name" {
