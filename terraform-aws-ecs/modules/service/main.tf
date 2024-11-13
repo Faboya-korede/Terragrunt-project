@@ -1,54 +1,48 @@
-# resource "aws_iam_role" "svc" {
-#   name = "${var.name}-ecs-role"
-
-#   assume_role_policy = <<EOF
-# {
-#   "Version": "2008-10-17",
-#   "Statement": [
-# 	{
-# 	  "Sid": "",
-# 	  "Effect": "Allow",
-# 	  "Principal": {
-# 		"Service": "ecs.amazonaws.com"
-# 	  },
-# 	  "Action": "sts:AssumeRole"
-# 	}
-#   ]
-# }
-# EOF
-
-# }
-
-# resource "aws_iam_role_policy_attachment" "svc" {
-#   role       = aws_iam_role.svc.name
-#   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
-# }
-
-resource "aws_cloudwatch_log_group" "svc" {
-  count = length(var.log_groups)
-  name  = element(var.log_groups, count.index)
-  tags = merge(
-    var.tags,
-    {
-      "Name" = format("%s", var.name)
-    },
-  )
+resource "random_pet" "that" {
+  length = 2
 }
+
+# Security group for ecs fonu-abi
+resource "aws_security_group" "task-sg" {
+  name        = "${var.name}-task-sg"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    protocol        = "tcp"
+    from_port       = 80
+    to_port         = 80
+    cidr_blocks     = ["0.0.0.0/0"]
+   
+  }
+
+  egress {
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 
 resource "aws_ecs_service" "svc" {
   name            = var.name
   cluster         = var.cluster
   task_definition = var.task_definition_arn
   desired_count   = var.desired_count
-  #iam_role        = aws_iam_role.svc.arn
+  launch_type     = "FARGATE"
 
-  deployment_maximum_percent         = var.deployment_maximum_percent
-  deployment_minimum_healthy_percent = var.deployment_minimum_healthy_percent
+  load_balancer {
+    target_group_arn = var.target_group_arn
+    container_name   = var.container_name
+    container_port   = var.container_port
+  }
 
-  # load_balancer {
-  #   target_group_arn = var.alb_target_group_arn
-  #   container_name   = var.container_name
-  #   container_port   = var.container_port
-  # }
+
+   network_configuration {
+    security_groups = [aws_security_group.task-sg.id]
+    subnets         = var.private_subnets
+    assign_public_ip = true  
+  }
+
 }
 

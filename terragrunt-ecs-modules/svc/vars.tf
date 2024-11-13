@@ -1,7 +1,3 @@
-variable "cluster" {
-  description = "Name of the ECS cluster to create service in"
-}
-
 variable "module_version" {
   description = "Version of the terraform module"
   type        = string
@@ -23,12 +19,12 @@ variable "container_image" {
 
 variable "container_memory" {
   description = "The amount (in MiB) of memory to present to the container"
-  default     = 128
+  default     = 512
 }
 
 variable "container_cpu" {
   description = "The number of cpu units the ECS container agent will reserve for the container."
-  default     = 100
+  default     = 256
 }
 
 variable "essential" {
@@ -56,4 +52,25 @@ variable "log_groups" {
   description = "Log groups that will be created in CloudWatch Logs"
   type        = list(string)
   default     = [""]
+}
+
+variable "vpc_id" {
+  type = string
+}
+
+variable "target_group_arn" {
+  type = string
+}
+
+variable "private_subnets" {
+  description = "List of VPC subnets to put instances in"
+  type = list(string)
+}
+
+variable "cluster" {
+  type = string
+}
+
+variable "name" {
+  type = string
 }

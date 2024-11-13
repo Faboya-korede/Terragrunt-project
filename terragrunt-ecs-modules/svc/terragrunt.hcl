@@ -7,6 +7,7 @@ dependency "alb" {
 }
 
 inputs = {
-  alb_target_group_arn = dependency.alb.outputs.target_group_arn
+  target_group_arn = dependency.alb.outputs.target_group_arn
   cluster              = dependency.ecs.outputs.cluster_id
+  vpc_id       = dependency.vpc.outputs.vpc_id
 }

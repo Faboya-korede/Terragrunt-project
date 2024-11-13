@@ -23,7 +23,7 @@ include {
 
 # These are the variables we have to pass in to use the module specified in the terragrunt configuration above
 inputs = {
-  version = "~> 2.33.0"
+  version = "~> 5.15.0"
 
   name               = "vpc-${local.env}"
   cidr               = "10.10.10.0/24"
