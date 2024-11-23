@@ -1,7 +1,7 @@
 pipeline:
   name: korede
   identifier: korede
-  projectIdentifier: default_project
+  projectIdentifier: test
   orgIdentifier: default
   tags: {}
 
