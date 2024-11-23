@@ -1,7 +1,7 @@
 pipeline:
   name: korede
   identifier: korede
-  projectIdentifier: test
+  projectIdentifier: test # Replace with the correct project identifier (e.g., 'Terragrunt-project')
   orgIdentifier: default
   tags: {}
 
@@ -18,7 +18,7 @@ pipeline:
                   identifier: terragrunt_init
                   type: Run
                   spec:
-                    connectorRef: <your-vcs-connector>  # Connector for your VCS, if using a Git repo
+                    connectorRef: <your-vcs-connector>  # Replace with the correct connector reference (e.g., 'github-connector')
                     command: |
                       terragrunt init
                     workingDirectory: "/terragrunt-ecs-nginx/non-prod/us-east-1"
@@ -28,7 +28,7 @@ pipeline:
                   identifier: terragrunt_plan
                   type: Run
                   spec:
-                    connectorRef: <your-vcs-connector>  # Reference to the GitHub/other VCS
+                    connectorRef: <your-vcs-connector>  # Replace with the correct connector reference
                     command: |
                       terragrunt plan
                     workingDirectory: "/terragrunt-ecs-nginx/non-prod/us-east-1"
@@ -38,7 +38,7 @@ pipeline:
                   identifier: terragrunt_apply
                   type: Run
                   spec:
-                    connectorRef: <your-vcs-connector>  # Reference to the GitHub/other VCS
+                    connectorRef: <your-vcs-connector>  # Replace with the correct connector reference
                     command: |
                       terragrunt apply --auto-approve
-                    workingDirectory: "<your-working-directory>"
+                    workingDirectory: "/terragrunt-ecs-nginx/non-prod/us-east-1"
