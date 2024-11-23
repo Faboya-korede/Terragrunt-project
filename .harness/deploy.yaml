@@ -1,0 +1,44 @@
+pipeline:
+  name: korede
+  identifier: korede
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+
+  stages:
+    - stage:
+        name: Terragrunt Deployment
+        identifier: terragrunt_deployment
+        type: Deployment
+        spec:
+          execution:
+            steps:
+              - step:
+                  name: Terragrunt Init
+                  identifier: terragrunt_init
+                  type: Run
+                  spec:
+                    connectorRef: <your-vcs-connector>  # Connector for your VCS, if using a Git repo
+                    command: |
+                      terragrunt init
+                    workingDirectory: "/terragrunt-ecs-nginx/non-prod/us-east-1"
+
+              - step:
+                  name: Terragrunt Plan
+                  identifier: terragrunt_plan
+                  type: Run
+                  spec:
+                    connectorRef: <your-vcs-connector>  # Reference to the GitHub/other VCS
+                    command: |
+                      terragrunt plan
+                    workingDirectory: "/terragrunt-ecs-nginx/non-prod/us-east-1"
+
+              - step:
+                  name: Terragrunt Apply
+                  identifier: terragrunt_apply
+                  type: Run
+                  spec:
+                    connectorRef: <your-vcs-connector>  # Reference to the GitHub/other VCS
+                    command: |
+                      terragrunt apply --auto-approve
+                    workingDirectory: "<your-working-directory>"

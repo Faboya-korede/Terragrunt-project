@@ -11,3 +11,19 @@ module "vpc" {
   single_nat_gateway = var.single_nat_gateway
   tags               = var.tags
 }
+
+locals {
+  subnets = [
+    "subnet-1233444",
+    "subnet-2883833933",
+    "subnet-9838388383"
+  ]
+}
+
+locals {
+  non_prod_subnets = [
+    "subnet-1233444838",
+    "subnet-2883833933",
+    "subnet-9838388383"
+  ]
+}

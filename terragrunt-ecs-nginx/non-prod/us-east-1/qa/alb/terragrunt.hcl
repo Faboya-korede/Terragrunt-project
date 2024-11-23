@@ -34,13 +34,13 @@ dependency "vpc" {
   config_path = "../vpc"
   mock_outputs = {
     vpc_id = "vpc-012341a0dd8b01234",
-    private_subnets = [
-      "subnet-003601fe683fd1111",
-      "subnet-0f0787cffc6ae1112",
-      "subnet-00e05034aa90b1112"
-    ],
     public_subnets = [
         "subnet-003601fe683fd1114",
+      "subnet-0f0787cffc6ae1114",
+      "subnet-00e05034aa90b1114"
+    ],
+  prod_subnets = [
+      "subnet-003601fe683fd1114",
       "subnet-0f0787cffc6ae1114",
       "subnet-00e05034aa90b1114"
     ]
@@ -59,5 +59,5 @@ inputs = {
   }
   version      = "~> 1.0.9"
   vpc_id         = dependency.vpc.outputs.vpc_id
-  public_subnets = dependency.vpc.outputs.public_subnets
+  public_subnets = dependency.vpc.outputs.prod_subnets
 }

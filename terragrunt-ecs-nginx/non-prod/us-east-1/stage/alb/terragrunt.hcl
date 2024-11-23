@@ -39,6 +39,11 @@ dependency "vpc" {
       "subnet-0f0787cffc6ae1112",
       "subnet-00e05034aa90b1112"
     ],
+    non_prod_subnets = [
+      "subnet-003601fe683fd1114",
+      "subnet-0f0787cffc6ae1114",
+      "subnet-00e05034aa90b1114"
+    ],
   }
 }
 
@@ -54,5 +59,5 @@ inputs = {
   }
   version      = "~> 1.0.9"
   vpc_id         = dependency.vpc.outputs.vpc_id
-  public_subnets = dependency.vpc.outputs.public_subnets
+  public_subnets = dependency.vpc.outputs.non_prod_subnets
 }
